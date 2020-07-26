@@ -1,6 +1,6 @@
 package Utils.database.dataobjpojo;
 
-import Utils.database.metadata.Table;
+import Utils.database.metadata.pojos.Table;
 
 public class PojoGen {
 

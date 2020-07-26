@@ -1,4 +1,4 @@
-package Utils.database.metadata;
+package Utils.database.metadata.pojos;
 
 import java.util.List;
 

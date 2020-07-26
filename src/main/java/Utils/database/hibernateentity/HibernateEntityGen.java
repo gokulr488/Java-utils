@@ -2,7 +2,7 @@ package Utils.database.hibernateentity;
 
 import java.util.List;
 
-import Utils.database.metadata.Table;
+import Utils.database.metadata.pojos.Table;
 
 public class HibernateEntityGen {
 

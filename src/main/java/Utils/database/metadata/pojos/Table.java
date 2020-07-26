@@ -1,4 +1,4 @@
-package Utils.database.metadata;
+package Utils.database.metadata.pojos;
 
 import java.util.List;
 
@@ -6,9 +6,10 @@ public class Table {
 
 	private String tableName;
 	private String tableSchema;
-	List<PrimaryKey> primaryKeys;
-	List<Column> columns;
-	List<ForeignKey> foreignKeys;
+	private List<PrimaryKey> primaryKeys;
+	private List<Column> columns;
+	private List<ParentTable> parentTables;
+	private List<ChildTable> childTables;
 
 	public List<Column> getColumns() {
 		return columns;
@@ -16,14 +17,6 @@ public class Table {
 
 	public void setColumns(List<Column> columns) {
 		this.columns = columns;
-	}
-
-	public List<ForeignKey> getForeignKeys() {
-		return foreignKeys;
-	}
-
-	public void setForeignKeys(List<ForeignKey> foreignKeys) {
-		this.foreignKeys = foreignKeys;
 	}
 
 	public String getTableSchema() {
@@ -50,9 +43,26 @@ public class Table {
 		this.tableName = tableName;
 	}
 
+	public List<ParentTable> getParentTables() {
+		return parentTables;
+	}
+
+	public void setParentTables(List<ParentTable> parentTables) {
+		this.parentTables = parentTables;
+	}
+
+	public List<ChildTable> getChildTables() {
+		return childTables;
+	}
+
+	public void setChildTables(List<ChildTable> childTables) {
+		this.childTables = childTables;
+	}
+
 	@Override
 	public String toString() {
 		return "Table [tableName=" + tableName + ", tableSchema=" + tableSchema + ", primaryKeys=" + primaryKeys
-				+ ", columns=" + columns + ", foreignKeys=" + foreignKeys + "]";
+				+ ", columns=" + columns + ", parentTables=" + parentTables + ", childTables=" + childTables + "]";
 	}
+
 }

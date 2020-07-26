@@ -1,9 +1,13 @@
 package Utils.database.metadata;
 
+import java.util.List;
+
+import Utils.database.metadata.pojos.Metadata;
+
 public class ConfigToMetadata implements MetadataCollector {
 
 	@Override
-	public Table getMetadata() {
+	public Metadata getMetadata(List<String> listOfTables) {
 		// TODO Auto-generated method stub
 		return null;
 	}

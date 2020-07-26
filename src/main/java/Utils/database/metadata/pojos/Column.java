@@ -1,4 +1,4 @@
-package Utils.database.metadata;
+package Utils.database.metadata.pojos;
 
 public class Column {
 
