@@ -28,12 +28,12 @@ public class StandardConnection implements ConnectionManager {
 	public Connection openConnection() {
 
 		try {
-			logger.info("Connecting with url= " + url + "  username= " + userName + " pass= " + password);
+			logger.info("Connecting to DB, URL: {} username: {} password: {}", url, userName, password);
 			connection = DriverManager.getConnection(url, userName, password);
 			logger.info("DB Connected");
 		} catch (SQLException e) {
-			logger.error("Unable to get DB Connection");
-			e.printStackTrace();
+			logger.error("Unable to get DB Connection", e);
+
 		}
 		return connection;
 
@@ -58,7 +58,7 @@ public class StandardConnection implements ConnectionManager {
 	public void closeConnection() {
 		try {
 			connection.close();
-			logger.warn("Closed Connection to DB");
+			logger.warn("Closed Connection to DB ");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

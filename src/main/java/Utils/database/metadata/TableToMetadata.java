@@ -10,12 +10,12 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import Utils.database.metadata.pojos.ChildTable;
-import Utils.database.metadata.pojos.Column;
-import Utils.database.metadata.pojos.Metadata;
-import Utils.database.metadata.pojos.ParentTable;
-import Utils.database.metadata.pojos.PrimaryKey;
-import Utils.database.metadata.pojos.Table;
+import Utils.database.metadata.model.ChildTable;
+import Utils.database.metadata.model.Column;
+import Utils.database.metadata.model.Metadata;
+import Utils.database.metadata.model.ParentTable;
+import Utils.database.metadata.model.PrimaryKey;
+import Utils.database.metadata.model.Table;
 
 public class TableToMetadata implements MetadataCollector {
 
@@ -41,7 +41,7 @@ public class TableToMetadata implements MetadataCollector {
 			dataBaseMD = conn.getMetaData();
 			metadata.setTables(getTables(listOfTables));
 		} catch (SQLException e) {
-			logger.error("Failed to collect Metadata from DB");
+			logger.error("Failed to collect Metadata from DB", e);
 		}
 
 		logger.info("Collected and parsed Metadata from Database");
@@ -63,7 +63,7 @@ public class TableToMetadata implements MetadataCollector {
 				table.setParentTables(getParentTables(tableName));
 
 				tables.add(table);
-				System.out.println("MetaData collected for '" + tableName + "' table");
+				logger.info("MetaData collected for '{}' table", tableName);
 			}
 		}
 		tables = getChildTables(tables);

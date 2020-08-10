@@ -2,7 +2,7 @@ package Utils.database.metadata;
 
 import java.util.List;
 
-import Utils.database.metadata.pojos.Metadata;
+import Utils.database.metadata.model.Metadata;
 
 public interface MetadataCollector {
 

@@ -15,7 +15,6 @@ public class PooledConnection implements ConnectionManager {
 
 	private static Logger logger = LoggerFactory.getLogger(PooledConnection.class);
 
-	private Connection connection;
 	private String url;
 	private String userName;
 	private String password;
@@ -25,7 +24,7 @@ public class PooledConnection implements ConnectionManager {
 
 	@Override
 	public Connection openConnection() {
-
+		Connection connection = null;
 		dataSource.setUrl(url);
 		dataSource.setUsername(userName);
 		dataSource.setPassword(password);
@@ -42,6 +41,17 @@ public class PooledConnection implements ConnectionManager {
 		}
 
 		return connection;
+	}
+
+	public Connection getConnectionFromPool() {
+
+		try {
+			logger.debug("Taking Connection From Pool");
+			return dataSource.getConnection();
+		} catch (SQLException e) {
+			logger.error("Unable to take connection from pool", e);
+			return null;
+		}
 	}
 
 	public PooledConnection(String url, String userName, String password) {

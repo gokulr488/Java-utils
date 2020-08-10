@@ -1,4 +1,4 @@
-package Utils.database.metadata.pojos;
+package Utils.database.metadata.model;
 
 public class ParentTable {
 

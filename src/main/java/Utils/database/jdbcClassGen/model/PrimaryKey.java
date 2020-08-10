@@ -1,4 +1,4 @@
-package Utils.database.dataobjpojo.pojos;
+package Utils.database.jdbcClassGen.model;
 
 public class PrimaryKey {
 

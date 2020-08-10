@@ -7,7 +7,8 @@ import java.util.List;
 
 public class FileWrite {
 	BufferedWriter buffer;
-	private String folder = "";
+	private String folder;
+	private String file = "";
 
 	public void write(List<String> data) {
 		for (String line : data) {
@@ -34,11 +35,17 @@ public class FileWrite {
 	}
 
 	public void createFile(String filePath) {
+		if (folder == null) {
+			file = filePath;
+		} else {
+			file = folder + "//" + filePath;
+		}
 		try {
-			this.buffer = new BufferedWriter(new FileWriter(folder + "//" + filePath));
+			this.buffer = new BufferedWriter(new FileWriter(file));
 		} catch (IOException e) {
+			file = file.replaceAll("//", "\\\\");
 			try {
-				this.buffer = new BufferedWriter(new FileWriter(folder + "\\" + filePath));
+				this.buffer = new BufferedWriter(new FileWriter(file));
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
