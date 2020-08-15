@@ -1,24 +1,54 @@
 package Utils;
 
 import java.sql.Connection;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import Utils.configuration.Json;
 import Utils.database.ConnectionManager;
 import Utils.database.connection.StandardConnection;
 import Utils.database.jdbcClassGen.JdbcClassGen;
 import Utils.database.metadata.TableToMetadata;
 import Utils.database.metadata.model.Metadata;
+import Utils.date.DateUtils;
+import Utils.fileutils.Files;
+import Utils.fileutils.filereader.FileRead;
 import Utils.fileutils.filewriter.FileWrite;
+import Utils.linux.Linux;
 
 public class Tester {
 
 	private static Logger logger = LoggerFactory.getLogger(Tester.class);
 
 	public static void main(String[] args) {
+//		Linux.executeOnWindows("dir");
+//		Linux.executeInDirectory("dir", "C:\\Users\\gokul\\eclipse-workspace");
+//
+//		System.out
+//				.println(DateUtils.changeFormat("1996 10 06 12:30:55", "yyyy MM dd HH:mm:ss", "yyyy MMM dd HH-mm-ss"));
+//		System.out.println(DateUtils.getCurrentTimeAs("yyyy MMM dd HH-mm-ss"));
+
+		Json.generatePojo(".\\resources\\test.json", "Parent", "foo", ".\\output");
+
+		FileRead reader = Files.getReader();
+		FileWrite writer = Files.getWriter();
+		for (String fileName : Files.getFolderUtils().getAllFilesIn("C:\\Users\\gokul\\Desktop\\Algols\\data")) {
+			reader.openFile("C:\\Users\\gokul\\Desktop\\Algols\\data\\" + fileName);
+
+			writer.createFile("C:\\Users\\gokul\\Desktop\\Algols\\output\\" + getFileName(fileName));
+			for (String line : reader.getAllLines()) {
+				line = line.replaceAll("-", "");
+				line = line.replaceAll(":", "");
+				writer.write(line);
+			}
+
+			reader.close();
+			writer.close();
+		}
 
 //		Metadata metadata = new Metadata();
 //		List<Table> tables = new ArrayList<Table>();
@@ -56,7 +86,24 @@ public class Tester {
 		Metadata metadata = toMetadata.getMetadata(tabless);
 		logger.info(metadata.toString());
 		JdbcClassGen.generateDoFrom(metadata, "resources");
+		JdbcClassGen.generateDaoImplFrom(metadata, "resources");
 
+	}
+
+	private static String getFileName(String fileName) {
+		String[] parts = fileName.split("_");
+		String stamp = parts[1];
+		Timestamp timestamp = new Timestamp(Long.parseLong(stamp));
+		System.out.println("SRC FILE NAME =" + fileName);
+		stamp = timestamp.toString();
+		stamp = stamp.replaceAll(" ", "");
+		stamp = stamp.replaceAll(":", "");
+		stamp = stamp.replaceAll("\\.", "");
+		stamp = stamp.replaceAll("-", "");
+		fileName = parts[0] + "_" + stamp + "_" + parts[2];
+		fileName = fileName.replace("csv", "txt");
+		System.out.println("OUTPUT FILE NAME = " + fileName);
+		return fileName;
 	}
 
 }

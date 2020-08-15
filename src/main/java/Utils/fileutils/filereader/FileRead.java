@@ -1,10 +1,11 @@
 package Utils.fileutils.filereader;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +40,23 @@ public class FileRead {
 		return lines;
 	}
 
+	public String readAsSingleString() {
+		logger.debug("Reading all lines from file {} to single String", file);
+		String data = "";
+		String line = "";
+		try {
+			while ((line = buffer.readLine()) != null) {
+				noOflines++;
+				data = data + "\n" + line;
+
+			}
+		} catch (IOException e) {
+			logger.error("Unable to Read all lines from file {}", file, e);
+		}
+
+		return data;
+	}
+
 	public List<String> readBinaryFile() {
 
 		// TODO
@@ -70,13 +88,9 @@ public class FileRead {
 	}
 
 	public void openResourceFile(String filePath) {
-		ClassLoader classLoader = this.getClass().getClassLoader();
-		try {
-			logger.info("Opening Resource file {}", filePath);
-			this.buffer = new BufferedReader(new FileReader(new File(classLoader.getResource(filePath).getFile())));
-		} catch (FileNotFoundException e) {
-			logger.error("Unable to Open Resource file {} ", filePath, e);
-		}
+		logger.debug("Opening Resource file {}", filePath);
+		InputStream inputStream = getClass().getResourceAsStream("/" + filePath);
+		this.buffer = new BufferedReader(new InputStreamReader(inputStream));
 	}
 
 	public void openFile(String filePath) {

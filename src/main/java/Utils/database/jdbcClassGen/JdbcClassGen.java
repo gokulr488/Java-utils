@@ -11,36 +11,34 @@ import org.slf4j.LoggerFactory;
 import Utils.database.metadata.model.Column;
 import Utils.database.metadata.model.Metadata;
 import Utils.database.metadata.model.Table;
-import Utils.fileutils.filereader.FileRead;
+import Utils.fileutils.Files;
 import Utils.gen.PojoGen;
 import Utils.gen.StringOperations;
 import Utils.gen.model.PojoModel;
 import Utils.gen.model.Variable;
 
 public class JdbcClassGen {
+	public static Map<String, String> map;
 
 	public JdbcClassGen() {
-		if (map == null) {
 
-			populateMap();
-		}
+		populateMap();
+
 	}
 
-	private static void populateMap() {
-		map = new HashMap<String, String>();
-		FileRead reader = new FileRead();
-		//reader.setFolder("resources");
-		reader.openResourceFile("javaDataTypeMapping.txt");
-		for (String line : reader.getAllLines()) {
-			String[] mapping = line.split(",");
-			map.put(mapping[0], mapping[1]);
+	public static void populateMap() {
+		if (map == null) {
+			map = new HashMap<String, String>();
+			Files.getReader().openResourceFile("javaDataTypeMapping.txt");
+			for (String line : Files.getReader().getAllLines()) {
+				String[] mapping = line.split(",");
+				map.put(mapping[0], mapping[1]);
+			}
+			Files.getReader().close();
 		}
-
 	}
 
 	private static Logger logger = LoggerFactory.getLogger(JdbcClassGen.class);
-
-	private static Map<String, String> map;
 
 	public static void generateDoFrom(Metadata metadata, String outputFolder) {
 		PojoGen generator = new PojoGen(outputFolder);
@@ -50,11 +48,19 @@ public class JdbcClassGen {
 
 	}
 
+	public static void generateDaoImplFrom(Metadata metadata, String outputFolder) {
+		DaoImplGen generator = new DaoImplGen(outputFolder);
+		for (Table table : metadata.getTables()) {
+			generator.generateDaoImpl(table);
+		}
+
+	}
+
 	public static List<PojoModel> metadataToPojoModel(Metadata metadata) {
 		List<PojoModel> models = new ArrayList<PojoModel>();
 		for (Table table : metadata.getTables()) {
 			PojoModel model = new PojoModel();
-			model.setClassName(StringOperations.getClassName(table.getTableName()));
+			model.setClassName(StringOperations.getClassName(table.getTableName())+"Do");
 			model.setVariables(getVariables(table.getColumns()));
 			models.add(model);
 		}
@@ -63,9 +69,9 @@ public class JdbcClassGen {
 	}
 
 	private static List<Variable> getVariables(List<Column> columns) {
-		if (map == null) {
-			populateMap();
-		}
+
+		populateMap();
+
 		List<Variable> variables = new ArrayList<Variable>();
 		for (Column column : columns) {
 			Variable var = new Variable();

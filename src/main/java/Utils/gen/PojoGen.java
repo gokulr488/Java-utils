@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.stringtemplate.v4.ST;
 
+import Utils.fileutils.Files;
 import Utils.fileutils.filewriter.FileWrite;
 import Utils.gen.model.PojoModel;
 import Utils.gen.model.Variable;
@@ -32,15 +33,13 @@ public class PojoGen {
 		pojoTemplate.add("variables", variables);
 		pojoTemplate.add("gettersAndSetters", gettersAndSeters);
 
-		FileWrite writer = new FileWrite();
+		FileWrite writer = Files.getWriter();
 		writer.setFolder(outputFolder);
 		writer.createFile(model.getClassName() + ".java");
 		writer.write(pojoTemplate.render());
 		logger.info("Generated Pojo {} class in {} folder", model.getClassName(), outputFolder);
 		writer.close();
 	}
-
-
 
 	private String generateVariables(List<Variable> variables) {
 		String genVariables = "";
@@ -54,8 +53,6 @@ public class PojoGen {
 		}
 		return genVariables;
 	}
-
-
 
 	public String getOutputFolder() {
 		return outputFolder;

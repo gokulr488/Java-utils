@@ -4,7 +4,7 @@ package PojoFromTableGen.pojos.dos;
 import java.sql.Date;
 import java.sql.Timestamp;
 
-public class <className>Do {
+public class <className> {
 
 	<variables>
 	
@@ -129,7 +129,7 @@ import java.util.List;
 
 import PojoFromTableGen.pojos.dos.<className>Do;
 
-public class <className>Dao {
+public class <className>DaoImpl {
 
 	//TODO add where conditions accordingly
 	private static final String selectQuery = "<selectQuery> WHERE ";
