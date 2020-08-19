@@ -19,6 +19,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sun.codemodel.JCodeModel;
 
+import Utils.fileutils.Files;
+
 public class Json {
 
 	private static Logger logger = LoggerFactory.getLogger(Json.class);
@@ -37,6 +39,20 @@ public class Json {
 		logger.debug(beautified);
 		return beautified;
 
+	}
+
+	public static void genJsonFile(Object obj, String destinationPath) {
+
+		Files.writeFullFile(getPrettyJson(obj), destinationPath);
+
+	}
+
+	public static <T> Object readJsonConfig(String filePath, Class<T> classType) {
+		return readJson(Files.readResourceFile(filePath), classType);
+	}
+
+	public static <T> Object readJsonFile(String filePath, Class<T> classType) {
+		return readJson(Files.readFullFile(filePath), classType);
 	}
 
 	public static <T> Object readJson(String jsonString, Class<T> classType) {
