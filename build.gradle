@@ -10,7 +10,7 @@ plugins {
     // Apply the java-library plugin to add support for Java Library
     id 'java-library'
 }
-
+sourceCompatibility = '9.0.4'
 
 def  serviceName = 'Utils'
 def serviceVersion = '1.0'
@@ -37,19 +37,21 @@ def serviceVersion = '1.0'
     from "release/${serviceName}${serviceVersion}"
     dependsOn copyResource
 }	
+
+task fatJar(type: Jar,group: 'build') {
+    manifest {
+        attributes 'Main-Class': 'Utils.testpack.Tester'  
+  }
+  	destinationDir = file("release/")
+    baseName = project.name + '-fat'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
      
      jar {   	
     	baseName "${serviceName}"    
 	}
 
-
-jar {
-   
- 
-    from {
-        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-    }
-}
 
 repositories {
     // Use jcenter for resolving dependencies.
@@ -66,13 +68,19 @@ dependencies {
 	compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
 	
 	compile group: 'com.google.code.gson', name: 'gson', version: '2.8.6'
-  compile group: 'org.jsonschema2pojo', name: 'jsonschema2pojo-core', version: '1.0.2'
+ 	compile group: 'org.jsonschema2pojo', name: 'jsonschema2pojo-core', version: '1.0.2'
 
 	
 	compile group: 'org.apache.commons', name: 'commons-dbcp2', version: '2.7.0'
 	implementation 'org.hibernate:hibernate-core:5.4.14.Final'
 	compile group: 'com.h2database', name: 'h2', version: '1.4.200'
-	compile group: 'com.oracle.database.jdbc', name: 'ojdbc8', version: '19.7.0.0'
+	//compile group: 'com.oracle.database.jdbc', name: 'ojdbc8', version: '19.7.0.0'
+	
+	//compile group: 'org.apache.sshd', name: 'sshd-scp', version: '2.5.1'
+
+	compile group: 'com.jcraft', name: 'jsch', version: '0.1.55'
+	
+	
 	
 	
 }

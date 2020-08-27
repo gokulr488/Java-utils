@@ -18,6 +18,31 @@ public class Files {
 
 	}
 
+	public static String readResourceFile(String filePath) {
+		reader = getReader();
+		reader.openResourceFile(filePath);
+		String data = reader.readAsSingleString();
+		reader.close();
+		return data;
+
+	}
+
+	public static String readFullFile(String filePath) {
+		reader = getReader();
+		reader.openFile(filePath);
+		String data = reader.readAsSingleString();
+		reader.close();
+		return data;
+
+	}
+
+	public static void writeFullFile(String data, String filePath) {
+		writer = getWriter();
+		writer.createFile(filePath);
+		writer.write(data);
+		writer.close();
+	}
+
 	public static FileRead getNewReader() {
 		return new FileRead();
 

@@ -65,6 +65,20 @@ public class StandardConnection implements ConnectionManager {
 		}
 	}
 
+	public static Connection getNewConnection(String url, String userName, String password) {
+		Connection conn = null;
+
+		try {
+			logger.info("Connecting to DB, URL: {} username: {} password: {}", url, userName, password);
+			conn = DriverManager.getConnection(url, userName, password);
+			logger.info("DB Connected");
+		} catch (SQLException e) {
+			logger.error("Unable to get DB Connection", e);
+
+		}
+		return conn;
+	}
+
 	public String getUrl() {
 		return url;
 	}
