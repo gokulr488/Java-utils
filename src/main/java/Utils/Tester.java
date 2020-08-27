@@ -1,4 +1,4 @@
-package Utils.testpack;
+package Utils;
 
 import java.sql.Connection;
 import java.sql.Timestamp;
@@ -19,12 +19,22 @@ import Utils.fileutils.Files;
 import Utils.fileutils.filereader.FileRead;
 import Utils.fileutils.filewriter.FileWrite;
 import Utils.linux.Linux;
+import Utils.linux.ScpConfig;
 
 public class Tester {
 
 	private static Logger logger = LoggerFactory.getLogger(Tester.class);
 
 	public static void main(String[] args) {
+		
+		
+		ScpConfig scpConfig=new ScpConfig();
+		scpConfig.setDestinationPath("/home/admin/");
+		scpConfig.setIpAddress("10.0.14.171");
+		scpConfig.setPassword("@tW1Un5e6(@$#a7");
+		scpConfig.setUserName("admin");
+		Linux.scp(scpConfig, "C:\\Users\\gokul\\Desktop\\test.txt");
+		
 //		Linux.executeOnWindows("dir");
 //		Linux.executeInDirectory("dir", "C:\\Users\\gokul\\eclipse-workspace");
 //

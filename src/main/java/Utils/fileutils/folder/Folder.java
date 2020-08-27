@@ -66,12 +66,14 @@ public class Folder {
 
 	private void addNewFilesToMap(String folder) {
 		String[] files = getAllFilesIn(folder);
-		for (String file : files) {
-			if (!listOfAllFiles.contains(file) && !file.contains(".done")) {
-				logger.info("Found new file {} in folder {}", file, folder);
-				listOfAllFiles.add(file);
-			}
+		if (files.length > 0) {
+			for (String file : files) {
+				if (!listOfAllFiles.contains(file) && !file.contains(".done")) {
+					logger.info("Found new file {} in folder {}", file, folder);
+					listOfAllFiles.add(file);
+				}
 
+			}
 		}
 	}
 }

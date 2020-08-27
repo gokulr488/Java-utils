@@ -1785,3 +1785,5 @@ Caused by: java.io.IOException: CreateProcess error=2, The system cannot find th
 19:52:32.222 [main] INFO  Utils.configuration.Json - Pojos Generated in C:\Users\gokul\eclipse-workspace\Utils\workspace\.\output folder
 19:52:49.894 [main] INFO  Utils.configuration.Json - Generating Pojos for .\resources\test.json
 19:53:21.570 [main] INFO  Utils.configuration.Json - Generating Pojos for file:/C:/Users/gokul/eclipse-workspace/Utils/workspace/./resources/test.json
+21:49:20.934 [main] INFO  Utils.linux.Linux - SFTP connected
+21:49:29.801 [main] INFO  Utils.linux.Linux - Succesfully transfered file: C:\Users\gokul\Desktop\test.txt over SFTP to :10.0.14.171
