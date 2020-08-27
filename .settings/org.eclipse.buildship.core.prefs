@@ -1,11 +1,11 @@
 arguments=
 auto.sync=false
 build.scans.enabled=false
-connection.gradle.distribution=GRADLE_DISTRIBUTION(LOCAL_INSTALLATION(C\:\\gradle-6.5.1))
+connection.gradle.distribution=GRADLE_DISTRIBUTION(LOCAL_INSTALLATION(C\:\\Users\\gokul\\Tools\\Gradle\\gradle-6.3))
 connection.project.dir=
 eclipse.preferences.version=1
-gradle.user.home=C\:/gradle_home
-java.home=C\:/Program Files/Java/jdk-11.0.3
+gradle.user.home=C\:/Users/gokul/Tools/Gradle/gradle home
+java.home=C\:/Program Files/Java/jdk-9.0.4
 jvm.arguments=
 offline.mode=false
 override.workspace.settings=true
