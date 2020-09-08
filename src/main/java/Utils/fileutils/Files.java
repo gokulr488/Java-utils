@@ -1,5 +1,7 @@
 package Utils.fileutils;
 
+import java.io.File;
+
 import Utils.fileutils.filereader.FileRead;
 import Utils.fileutils.filewriter.FileWrite;
 import Utils.fileutils.folder.Folder;
@@ -16,6 +18,11 @@ public class Files {
 		}
 		return reader;
 
+	}
+
+	public static boolean isFileExisting(String filePath) {
+		File file = new File(filePath);
+		return file.exists();
 	}
 
 	public static String readResourceFile(String filePath) {

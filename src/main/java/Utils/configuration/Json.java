@@ -1,23 +1,10 @@
 package Utils.configuration;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-
-import org.jsonschema2pojo.DefaultGenerationConfig;
-import org.jsonschema2pojo.GenerationConfig;
-import org.jsonschema2pojo.Jackson2Annotator;
-import org.jsonschema2pojo.SchemaGenerator;
-import org.jsonschema2pojo.SchemaMapper;
-import org.jsonschema2pojo.SchemaStore;
-import org.jsonschema2pojo.SourceType;
-import org.jsonschema2pojo.rules.RuleFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.sun.codemodel.JCodeModel;
 
 import Utils.fileutils.Files;
 
@@ -42,9 +29,11 @@ public class Json {
 	}
 
 	public static void genJsonFile(Object obj, String destinationPath) {
-
-		Files.writeFullFile(getPrettyJson(obj), destinationPath);
-
+		if (Files.isFileExisting(destinationPath)) {
+			logger.debug("{} file already exists", destinationPath);
+		} else {
+			Files.writeFullFile(getPrettyJson(obj), destinationPath);
+		}
 	}
 
 	public static <T> Object readJsonConfig(String filePath, Class<T> classType) {
@@ -75,40 +64,8 @@ public class Json {
 	 */
 	public static void generatePojo(String inputFilePath, String parentClassName, String packageName,
 			String outputFolder) {
-		JCodeModel codeModel = new JCodeModel();
-
-		try {
-			URL source = new File(inputFilePath).toURI().toURL();
-			logger.info("Generating Pojos for {}", source);
-			GenerationConfig config = new DefaultGenerationConfig() {
-				@Override
-				public boolean isGenerateBuilders() { // set config option by overriding method
-					return true;
-
-				}
-
-				@Override
-				public SourceType getSourceType() {
-					return SourceType.JSON;
-				}
-
-				@Override
-				public boolean isIncludeAdditionalProperties() {
-
-					return false;
-				}
-			};
-
-			SchemaMapper mapper = new SchemaMapper(
-					new RuleFactory(config, new Jackson2Annotator(config), new SchemaStore()), new SchemaGenerator());
-			mapper.generate(codeModel, parentClassName, packageName, source);
-			File outputPath = new File(outputFolder);
-			codeModel.build(outputPath);
-			logger.info("Pojos Generated in {} folder", outputPath.getAbsolutePath());
-
-		} catch (IOException e) {
-			logger.error("Unable to generate Pojo for {} file", inputFilePath, e);
-		}
+		JsonToPojo jsonToPojo = new JsonToPojo();
+		jsonToPojo.generatePojo(inputFilePath, parentClassName, packageName, outputFolder);
 
 	}
 

@@ -13,14 +13,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class FileRead {
-	BufferedReader buffer;
+	private BufferedReader buffer;
 	private String folder;
 	private String file = "";
 	private int noOflines = 0;
 
 	private static Logger logger = LoggerFactory.getLogger(FileRead.class);
 
-	public List<String> getAllLines() {
+	public List<String> readAllLines() {
 		logger.debug("Reading all lines from file {}", file);
 		List<String> lines = new ArrayList<String>();
 		String line = "";
@@ -131,6 +131,10 @@ public class FileRead {
 
 	public void setFolder(String folder) {
 		this.folder = folder;
+	}
+
+	public BufferedReader getBuffer() {
+		return buffer;
 	}
 
 }

@@ -50,7 +50,7 @@ public class Tester {
 			reader.openFile("C:\\Users\\gokul\\Desktop\\Algols\\data\\" + fileName);
 
 			writer.createFile("C:\\Users\\gokul\\Desktop\\Algols\\output\\" + getFileName(fileName));
-			for (String line : reader.getAllLines()) {
+			for (String line : reader.readAllLines()) {
 				line = line.replaceAll("-", "");
 				line = line.replaceAll(":", "");
 				writer.write(line);

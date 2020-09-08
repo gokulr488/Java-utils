@@ -30,7 +30,7 @@ public class JdbcClassGen {
 		if (map == null) {
 			map = new HashMap<String, String>();
 			Files.getReader().openResourceFile("javaDataTypeMapping.txt");
-			for (String line : Files.getReader().getAllLines()) {
+			for (String line : Files.getReader().readAllLines()) {
 				String[] mapping = line.split(",");
 				map.put(mapping[0], mapping[1]);
 			}
