@@ -48,8 +48,8 @@ task fatJar(type: Jar,group: 'build') {
     with jar
 }
      
-     jar {   	
-    	baseName "${serviceName}"    
+     jar {   
+     	destinationDir = file("release/")	
 	}
 
 

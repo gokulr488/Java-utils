@@ -1,9 +1,0 @@
-VARCHAR2,String
-MEDIUMTEXT,String
-VARCHAR,String
-NUMBER,long
-DATE,Date
-INT,int
-TIMESTAMP,Timestamp
-DOUBLE,double
-FLOAT,float

@@ -110,6 +110,29 @@ public class Linux {
 
 	}
 
+	public static void executeShellFile(String shellFile) {
+
+		try {
+			List<String> cmdList = new ArrayList<String>();
+			cmdList.add("sh");
+			cmdList.add(shellFile);
+			ProcessBuilder pb = new ProcessBuilder(cmdList);
+			//pb=pb.inheritIO();
+			logger.info("Executing Script file {}", shellFile);
+			Process p = pb.inheritIO().start();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+			String line;
+			while ((line = reader.readLine()) != null) {
+				logger.info(line);
+			}
+			p.waitFor();
+		} catch (IOException e) {
+			logger.error("Unable to execute shell script file {}", shellFile, e);
+		} catch (InterruptedException e) {
+			logger.error("Unable to execute shell script file {}", shellFile, e);
+		}
+	}
+
 	public static int executeApplication(String app, String directory, List<String> arguments) {
 		CommandLine cmdLine = new CommandLine(app);
 		for (String arg : arguments) {
