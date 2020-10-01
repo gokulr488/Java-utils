@@ -1,6 +1,7 @@
 package Utils;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,11 +11,13 @@ import org.slf4j.LoggerFactory;
 
 import Utils.configuration.Json;
 import Utils.database.ConnectionManager;
+import Utils.database.DB;
 import Utils.database.connection.StandardConnection;
+import Utils.database.hibernateentity.HibernateEntity;
 import Utils.database.jdbcClassGen.JdbcClassGen;
 import Utils.database.metadata.TableToMetadata;
 import Utils.database.metadata.model.Metadata;
-import Utils.date.DateUtils;
+import Utils.database.metadata.model.Table;
 import Utils.fileutils.Files;
 import Utils.fileutils.filereader.FileRead;
 import Utils.fileutils.filewriter.FileWrite;
@@ -25,16 +28,24 @@ public class Tester {
 
 	private static Logger logger = LoggerFactory.getLogger(Tester.class);
 
-	public static void main(String[] args) {
-		
-		
-		ScpConfig scpConfig=new ScpConfig();
+	public static void main(String[] args) throws SQLException {
+		Connection con = DB.getConnection("jdbc:mysql://localhost:3308/inventory_29_sep", "snd",
+				"snd@6Dtech");
+		HibernateEntity hib = new HibernateEntity("output/foo/");
+		TableToMetadata metadataGen = new TableToMetadata(con);
+		Metadata md = metadataGen.getMetadata("asset_details");
+
+		for (Table table : md.getTables()) {
+			hib.genEntityForTable(table);
+		}
+
+		ScpConfig scpConfig = new ScpConfig();
 		scpConfig.setDestinationPath("/home/admin/");
 		scpConfig.setIpAddress("10.0.14.171");
 		scpConfig.setPassword("@tW1Un5e6(@$#a7");
 		scpConfig.setUserName("admin");
 		Linux.scp(scpConfig, "C:\\Users\\gokul\\Desktop\\test.txt");
-		
+
 //		Linux.executeOnWindows("dir");
 //		Linux.executeInDirectory("dir", "C:\\Users\\gokul\\eclipse-workspace");
 //

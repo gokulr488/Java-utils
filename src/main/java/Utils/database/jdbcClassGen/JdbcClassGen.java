@@ -60,7 +60,7 @@ public class JdbcClassGen {
 		List<PojoModel> models = new ArrayList<PojoModel>();
 		for (Table table : metadata.getTables()) {
 			PojoModel model = new PojoModel();
-			model.setClassName(StringOperations.getClassName(table.getTableName())+"Do");
+			model.setClassName(StringOperations.getClassName(table.getTableName()) + "Do");
 			model.setVariables(getVariables(table.getColumns()));
 			models.add(model);
 		}
@@ -68,7 +68,7 @@ public class JdbcClassGen {
 		return models;
 	}
 
-	private static List<Variable> getVariables(List<Column> columns) {
+	public static List<Variable> getVariables(List<Column> columns) {
 
 		populateMap();
 

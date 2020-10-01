@@ -7,3 +7,6 @@ INT,int
 TIMESTAMP,Timestamp
 DOUBLE,double
 FLOAT,float
+BIGINT,int
+DATETIME,Timestamp
+BIT,boolean

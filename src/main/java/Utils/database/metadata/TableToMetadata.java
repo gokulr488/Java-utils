@@ -52,7 +52,7 @@ public class TableToMetadata implements MetadataCollector {
 		List<Table> tables = new ArrayList<Table>();
 		for (String tableName : listOfTables) {
 
-			ResultSet res = dataBaseMD.getTables(null, null, tableName, null);
+			ResultSet res = dataBaseMD.getTables(conn.getCatalog(), null, tableName, null);
 
 			while (res.next()) {
 				Table table = new Table();
@@ -91,7 +91,7 @@ public class TableToMetadata implements MetadataCollector {
 	}
 
 	private List<ParentTable> getParentTables(String tableName) throws SQLException {
-		ResultSet res = dataBaseMD.getImportedKeys(null, null, tableName);
+		ResultSet res = dataBaseMD.getImportedKeys(conn.getCatalog(), null, tableName);
 		List<ParentTable> parentTables = new ArrayList<ParentTable>();
 		List<String> addedParent = new ArrayList<String>();
 		while (res.next()) {
@@ -112,7 +112,7 @@ public class TableToMetadata implements MetadataCollector {
 	}
 
 	private List<PrimaryKey> getPrimaryKey(String tableName) throws SQLException {
-		ResultSet res = dataBaseMD.getPrimaryKeys(null, null, tableName);
+		ResultSet res = dataBaseMD.getPrimaryKeys(conn.getCatalog(), null, tableName);
 
 		List<PrimaryKey> primaryKeys = new ArrayList<PrimaryKey>();
 		List<String> pkAdded = new ArrayList<String>();
@@ -133,7 +133,7 @@ public class TableToMetadata implements MetadataCollector {
 	}
 
 	private List<Column> getColumns(String tableName) throws SQLException {
-		ResultSet res = dataBaseMD.getColumns(null, null, tableName, null);
+		ResultSet res = dataBaseMD.getColumns(conn.getCatalog(), null, tableName, null);
 
 		List<Column> columns = new ArrayList<Column>();
 		List<String> colsAdded = new ArrayList<String>();
