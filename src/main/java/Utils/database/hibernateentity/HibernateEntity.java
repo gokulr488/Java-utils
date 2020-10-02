@@ -6,7 +6,9 @@ import org.stringtemplate.v4.ST;
 
 import Utils.UtilsLogger;
 import Utils.database.jdbcClassGen.JdbcClassGen;
+import Utils.database.metadata.model.ChildTable;
 import Utils.database.metadata.model.Column;
+import Utils.database.metadata.model.ParentTable;
 import Utils.database.metadata.model.Table;
 import Utils.fileutils.Files;
 import Utils.fileutils.filewriter.FileWrite;
@@ -42,12 +44,41 @@ public class HibernateEntity {
 		template.add("tableName", table.getTableName());
 		template.add("className", StringOperations.getClassName(table.getTableName()));
 		template.add("variables", getVariables(table));
-		template.add("manyToOne", "manyToOne");
-		template.add("oneToMany", "OneToMany");
+		template.add("manyToOne", manyToOneMappings(table));
+		template.add("oneToMany", oneToManyMappings(table));
 		template.add("primaryKey", getPrimaryKey(table));
 		template.add("gettersAndSetters", getGettersAndSeters(table));
 
 		return template.render();
+	}
+
+	private String manyToOneMappings(Table table) {
+		String manyToOneMappings = "";
+		if (table.getParentTables() != null) {
+			for (ParentTable parentTable : table.getParentTables()) {
+				ST temp = GenUtils.getTemplate("template.stg", "manyTOneMapping");
+				temp.add("columnName", parentTable.getForeignColName());
+				temp.add("parentClassName", StringOperations.getClassName(parentTable.getParentTableName()));
+				temp.add("parentObjName", StringOperations.getVariableName(parentTable.getParentTableName()));
+				manyToOneMappings += temp.render();
+			}
+		}
+
+		return manyToOneMappings;
+	}
+
+	private String oneToManyMappings(Table table) {
+		String oneToManyMappings = "";
+		if (table.getChildTables() != null) {
+			for (ChildTable childTable : table.getChildTables()) {
+				ST temp = GenUtils.getTemplate("template.stg", "oneToManyMapping");
+				temp.add("mappedBy", StringOperations.getVariableName(table.getTableName()));
+				temp.add("childTableClass", StringOperations.getClassName(childTable.getChildTableName()));
+				temp.add("childTableObject", StringOperations.getVariableName(childTable.getChildTableName()));
+				oneToManyMappings += temp.render();
+			}
+		}
+		return oneToManyMappings;
 	}
 
 	private Object getGettersAndSeters(Table table) {
@@ -78,8 +109,16 @@ public class HibernateEntity {
 			if (column.getColumnName().equals(table.getPrimaryKeys().get(0).getPrimaryKey())) {
 				continue;
 			}
+			if (table.getParentTables() != null) {
+				for (ParentTable parentTable : table.getParentTables()) {
+					if (parentTable.getForeignColName().equals(column.getColumnName())) {
+						continue;
+					}
+				}
+			}
 
-			ST var = new ST("	@Column(name = \"<columnName>\")\r\n" + "	private <dataType> <variableName>;\r\n\r\n");
+			ST var = new ST(
+					"	@Column(name = \"<columnName>\")\r\n" + "	private <dataType> <variableName>;\r\n\r\n");
 			var.add("columnName", column.getColumnName());
 			var.add("dataType", JdbcClassGen.map.get(column.getDataType()));
 			var.add("variableName", StringOperations.getVariableName(column.getColumnName()));

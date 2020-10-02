@@ -78,7 +78,10 @@ CREATE SEQUENCE T_SUB_EVENT_SEQ
 >>
 
 hibernateEntity(tableName,className,variables,manyToOne,oneToMany,primaryKey,gettersAndSetters) ::=<<
-package com.algols.datapersistance.dos;
+package Utils.test;
+
+import java.sql.Timestamp;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -88,6 +91,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -105,17 +109,27 @@ public class <className> {
 	<primaryKey>
 
 	<variables>
-	
 	<manyToOne>
-	
 	<oneToMany>
 
 	<gettersAndSetters>
 
 }
 >>
+oneToManyMapping(mappedBy,childTableClass,childTableObject) ::=<<
 
+	@OneToMany(mappedBy = "<mappedBy>", cascade = CascadeType.ALL)
+	private List\<<childTableClass>\> <childTableObject>;
+	
+>>
 
+manyTOneMapping(columnName,parentClassName,parentObjName)::=<<
+
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "<columnName>")
+	private <parentClassName> <parentObjName>;
+
+>>
 daoTemplate(selectQuery,className,gettersFromResultSet) ::=<<
 package PojoFromTableGen.pojos.daos;
 
