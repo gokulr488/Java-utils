@@ -82,6 +82,7 @@ package Utils.test;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.ArrayList;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -107,7 +108,6 @@ public class <className> {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SequenceName")
 	<primaryKey>
-
 	<variables>
 	<manyToOne>
 	<oneToMany>
@@ -116,10 +116,20 @@ public class <className> {
 
 }
 >>
-oneToManyMapping(mappedBy,childTableClass,childTableObject) ::=<<
+oneToManyMapping(mappedBy,childTableClass,childTableObject,thisClassName) ::=<<
 
 	@OneToMany(mappedBy = "<mappedBy>", cascade = CascadeType.ALL)
-	private List\<<childTableClass>\> <childTableObject>;
+	private List\<<childTableClass>\> <childTableObject>s;
+	
+	public void add(<childTableClass> <childTableObject>){
+		
+		if(<childTableObject>s ==null) {
+			<childTableObject>s = new ArrayList\<>();
+		}
+		
+		<childTableObject>s.add(<childTableObject>);
+		<childTableObject>.set<thisClassName>(this);
+	}
 	
 >>
 

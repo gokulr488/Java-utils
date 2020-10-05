@@ -73,6 +73,7 @@ public class HibernateEntity {
 			for (ChildTable childTable : table.getChildTables()) {
 				ST temp = GenUtils.getTemplate("template.stg", "oneToManyMapping");
 				temp.add("mappedBy", StringOperations.getVariableName(table.getTableName()));
+				temp.add("thisClassName", StringOperations.getClassName(table.getTableName()));
 				temp.add("childTableClass", StringOperations.getClassName(childTable.getChildTableName()));
 				temp.add("childTableObject", StringOperations.getVariableName(childTable.getChildTableName()));
 				oneToManyMappings += temp.render();
@@ -83,6 +84,14 @@ public class HibernateEntity {
 
 	private Object getGettersAndSeters(Table table) {
 		List<Variable> variables = JdbcClassGen.getVariables(table.getColumns());
+		
+		for (ParentTable parentTable : table.getParentTables()) {
+			//To generate getters and setters for ManyToOne annotated fields 
+			Variable var = new Variable();
+			var.setDataType(StringOperations.getClassName(parentTable.getParentTableName()));
+			var.setVariableName(StringOperations.getVariableName(parentTable.getParentTableName()));
+			variables.add(var);
+		}
 		return StringOperations.genGettersAndSetters(variables);
 	}
 
