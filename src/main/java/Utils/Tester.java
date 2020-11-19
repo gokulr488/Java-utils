@@ -21,6 +21,7 @@ import Utils.database.metadata.model.Table;
 import Utils.fileutils.Files;
 import Utils.fileutils.filereader.FileRead;
 import Utils.fileutils.filewriter.FileWrite;
+import Utils.gen.StringOperations;
 import Utils.linux.Linux;
 import Utils.linux.ScpConfig;
 
@@ -29,6 +30,10 @@ public class Tester {
 	private static Logger logger = LoggerFactory.getLogger(Tester.class);
 
 	public static void main(String[] args) throws SQLException {
+		
+		StringOperations.getPackageNameOfFolder("C:\\Users\\gokul\\Desktop\\workspaces\\inventory\\production-service\\src\\main\\java\\com\\sixdee\\im\\prd\\");
+		
+		
 		Connection con = DB.getConnection("jdbc:h2:C:\\Users\\gokul\\eclipse-workspace\\MisWebServer\\workspace\\store\\db", "user",
 				"pass");
 		HibernateEntity hib = new HibernateEntity("output/foo/");

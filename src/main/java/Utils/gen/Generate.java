@@ -1,6 +1,9 @@
 package Utils.gen;
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,13 +13,17 @@ import Utils.database.hibernaterepository.HibernateRepository;
 import Utils.database.metadata.TableToMetadata;
 import Utils.database.metadata.model.Metadata;
 import Utils.database.metadata.model.Table;
+import Utils.fileutils.folder.Folder;
 
 public class Generate {
 	private Metadata metadata;
 
-	public void hibernateEntitiesAndRepositories(Connection conn, String outputFolder) {
-		hibernateEntities(conn, outputFolder);
-		hibernateRepositories(conn, outputFolder);
+	public void hibernateEntitiesAndRepositories(Connection conn, String projectFolder) {
+		Folder.createFolder(projectFolder + "db");
+		Folder.createFolder(projectFolder + "db.repository");
+		Folder.createFolder(projectFolder + "db.entities");
+		hibernateEntities(conn, projectFolder + "db.entities");
+		hibernateRepositories(conn, projectFolder + "db.repository");
 
 	}
 
@@ -51,7 +58,20 @@ public class Generate {
 	}
 
 	private List<String> getAllTablesInSchema(Connection conn) {
-		get list of all tables in the specified schema
-		return null;
+		List<String> tables = new ArrayList<String>();
+		try {
+			DatabaseMetaData md = conn.getMetaData();
+			ResultSet resultSet = md.getTables(conn.getCatalog(), null, null, null);
+			int noOfTables = 0;
+			while (resultSet.next()) {
+				tables.add(resultSet.getString("TABLE_NAME"));
+				noOfTables++;
+			}
+			Utils.logger.info("No Of Tables in Schema= {}", noOfTables);
+		} catch (SQLException e) {
+			Utils.logger.error("Unable to get list of all tables in schema", e);
+		}
+
+		return tables;
 	}
 }

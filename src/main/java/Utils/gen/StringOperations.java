@@ -6,7 +6,6 @@ import org.stringtemplate.v4.ST;
 
 import Utils.gen.model.Variable;
 
-
 public class StringOperations {
 
 	public static String genGettersAndSetters(List<Variable> variables) {
@@ -22,7 +21,7 @@ public class StringOperations {
 		}
 		return gettersAndSetters;
 	}
-	
+
 	public static String getClassName(String tableName) {
 		String className = "";
 		String words[] = tableName.split("_");
@@ -33,6 +32,7 @@ public class StringOperations {
 		}
 		return className;
 	}
+
 	public static String getVariableName(String columnName) {
 		String varName = "";
 		int i = 0;
@@ -59,8 +59,14 @@ public class StringOperations {
 	}
 
 	public static String getPackageNameOfFolder(String outputFolder) {
-		String str=
-		return null;
+
+		String str = outputFolder.split("src\\\\main\\\\java\\\\")[1];
+		str = str.replaceAll("\\\\", ".");
+		char lastChar = str.charAt(str.length() - 1);
+		if (lastChar == '.') {
+			str = str.substring(0, str.length() - 1);
+		}
+		return str;
 	}
 
 }
