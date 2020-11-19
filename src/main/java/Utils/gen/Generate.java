@@ -20,17 +20,18 @@ public class Generate {
 
 	public void hibernateEntitiesAndRepositories(Connection conn, String projectFolder) {
 		Folder.createFolder(projectFolder + "db");
-		Folder.createFolder(projectFolder + "db.repository");
-		Folder.createFolder(projectFolder + "db.entities");
-		hibernateEntities(conn, projectFolder + "db.entities");
-		hibernateRepositories(conn, projectFolder + "db.repository");
+		Folder.createFolder(projectFolder + "db\\repository");
+		Folder.createFolder(projectFolder + "db\\entities");
+		hibernateRepositories(conn, projectFolder + "db\\repository");
+		hibernateEntities(conn, projectFolder + "db\\entities");
 
 	}
 
 	public void hibernateEntities(Connection conn, String outputFolder) {
 		Utils.logger.info("Starting Generation of Entities");
 		getMetaData(conn);
-		HibernateEntity hibernate = new HibernateEntity(outputFolder);
+		HibernateEntity hibernate = new HibernateEntity(outputFolder,
+				StringOperations.getPackageNameOfFolder(outputFolder));
 		for (Table table : metadata.getTables()) {
 			hibernate.genEntityForTable(table);
 		}

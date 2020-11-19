@@ -18,9 +18,11 @@ import Utils.gen.model.Variable;
 
 public class HibernateEntity {
 	private String outputFolder;
+	private String packageName;
 
-	public HibernateEntity(String outputFolder) {
+	public HibernateEntity(String outputFolder, String packageName) {
 		this.outputFolder = outputFolder;
+		this.packageName = packageName;
 		JdbcClassGen.populateMap();
 	}
 
@@ -33,7 +35,7 @@ public class HibernateEntity {
 	private void generateFiles(Table table) {
 		String className = StringOperations.getClassName(table.getTableName());
 		FileWrite writer = Files.getWriter();
-		writer.createFile(outputFolder + className + ".java");
+		writer.createFile(outputFolder + "\\" + className + ".java");
 		writer.write(generateCode(table));
 
 		writer.close();
@@ -41,6 +43,7 @@ public class HibernateEntity {
 
 	private String generateCode(Table table) {
 		ST template = GenUtils.getTemplate("template.stg", "hibernateEntity");
+		template.add("packageName", packageName);
 		template.add("tableName", table.getTableName());
 		template.add("className", StringOperations.getClassName(table.getTableName()));
 		template.add("variables", getVariables(table));

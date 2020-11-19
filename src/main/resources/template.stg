@@ -77,8 +77,8 @@ CREATE SEQUENCE T_SUB_EVENT_SEQ
     CACHE 2;
 >>
 
-hibernateEntity(tableName,className,variables,manyToOne,oneToMany,primaryKey,gettersAndSetters) ::=<<
-package Utils.test;
+hibernateEntity(tableName,className,variables,manyToOne,oneToMany,primaryKey,gettersAndSetters,packageName) ::=<<
+package <packageName>;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -182,7 +182,7 @@ public class <className>DaoImpl {
 
 
 hibernateRepository(packageName,entityName) ::=<<
-package <packageName>.db.repository;
+package <packageName>;
 
 import java.util.Date;
 import java.util.List;
@@ -198,10 +198,10 @@ import <packageName>.entities.<entityName>;
 
 @Repository
 public interface <entityName>Repository extends JpaRepository\<<entityName>, Long>,
-		JpaSpecificationExecutor\<<entityName>>, PagingAndSortingRepository\<<entityName>, Long> {
+		JpaSpecificationExecutor\<<entityName>\>, PagingAndSortingRepository\<<entityName>, Long> {
 
 	@Query("FROM <entityName> WHERE activatedUserId=:ownerId")
-	public List\<<entityName>> get<entityName>ByOwnerId(@Param("ownerId"));
+	public List\<<entityName>\> get<entityName>ByOwnerId(@Param("ownerId"));
 
 }
 >>

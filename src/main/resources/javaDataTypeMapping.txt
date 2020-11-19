@@ -12,3 +12,4 @@ BIGINT,int
 DATETIME,Timestamp
 BIT,boolean
 LONGTEXT,String
+SMALLINT,int

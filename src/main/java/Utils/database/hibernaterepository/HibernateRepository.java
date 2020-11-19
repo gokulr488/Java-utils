@@ -35,7 +35,7 @@ public class HibernateRepository {
 	private void generateFiles(Table table) {
 		String className = StringOperations.getClassName(table.getTableName());
 		FileWrite writer = Files.getWriter();
-		writer.createFile(outputFolder + className + "Repository.java");
+		writer.createFile(outputFolder + "\\" + className + "Repository.java");
 		writer.write(generateCode(table));
 		writer.close();
 
