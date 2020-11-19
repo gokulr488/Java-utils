@@ -181,4 +181,27 @@ public class <className>DaoImpl {
 >>
 
 
+hibernateRepository(packageName,entityName) ::=<<
+package <packageName>.db.repository;
 
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+import <packageName>.entities.<entityName>;
+
+@Repository
+public interface <entityName>Repository extends JpaRepository\<<entityName>, Long>,
+		JpaSpecificationExecutor\<<entityName>>, PagingAndSortingRepository\<<entityName>, Long> {
+
+	@Query("FROM <entityName> WHERE activatedUserId=:ownerId")
+	public List\<<entityName>> get<entityName>ByOwnerId(@Param("ownerId"));
+
+}
+>>

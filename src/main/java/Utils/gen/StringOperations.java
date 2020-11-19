@@ -58,4 +58,9 @@ public class StringOperations {
 		return str;
 	}
 
+	public static String getPackageNameOfFolder(String outputFolder) {
+		String str=
+		return null;
+	}
+
 }

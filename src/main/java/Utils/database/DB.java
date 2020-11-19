@@ -3,13 +3,18 @@ package Utils.database;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import Utils.UtilsLogger;
+import Utils.Utils;
 import Utils.database.connection.StandardConnection;
 
 public class DB {
 	private static Connection con;
 	private static ConnectionManager manager;
 
+	/**
+	 * @param url
+	 * @param userName
+	 * @param password
+	 */
 	public static Connection getConnection(String url, String userName, String password) {
 		try {
 			if (con == null || con.isClosed()) {
@@ -18,7 +23,7 @@ public class DB {
 			}
 
 		} catch (SQLException e) {
-			UtilsLogger.logger.error("Unable to get Connection", e);
+			Utils.logger.error("Unable to get Connection", e);
 		}
 		return con;
 	}

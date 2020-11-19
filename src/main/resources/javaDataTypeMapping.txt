@@ -4,6 +4,7 @@ VARCHAR,String
 NUMBER,long
 DATE,Date
 INT,int
+INTEGER,int
 TIMESTAMP,Timestamp
 DOUBLE,double
 FLOAT,float

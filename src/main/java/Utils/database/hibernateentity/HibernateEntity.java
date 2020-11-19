@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.stringtemplate.v4.ST;
 
-import Utils.UtilsLogger;
+import Utils.Utils;
 import Utils.database.jdbcClassGen.JdbcClassGen;
 import Utils.database.metadata.model.ChildTable;
 import Utils.database.metadata.model.Column;
@@ -25,9 +25,9 @@ public class HibernateEntity {
 	}
 
 	public void genEntityForTable(Table table) {
-		UtilsLogger.logger.info("Generating Entity classes for {} table", table.getTableName());
+		Utils.logger.info("Generating Entity classes for {} table", table.getTableName());
 		generateFiles(table);
-		UtilsLogger.logger.info("Entity classes generated for {} table in {}", table.getTableName(), outputFolder);
+		Utils.logger.info("Entity classes generated for {} table in {}", table.getTableName(), outputFolder);
 	}
 
 	private void generateFiles(Table table) {
@@ -84,9 +84,9 @@ public class HibernateEntity {
 
 	private Object getGettersAndSeters(Table table) {
 		List<Variable> variables = JdbcClassGen.getVariables(table.getColumns());
-		
+
 		for (ParentTable parentTable : table.getParentTables()) {
-			//To generate getters and setters for ManyToOne annotated fields 
+			// To generate getters and setters for ManyToOne annotated fields
 			Variable var = new Variable();
 			var.setDataType(StringOperations.getClassName(parentTable.getParentTableName()));
 			var.setVariableName(StringOperations.getVariableName(parentTable.getParentTableName()));
@@ -96,28 +96,36 @@ public class HibernateEntity {
 	}
 
 	private String getPrimaryKey(Table table) {
-		// Primary key object doesn't have the data type. So get data type of PKey from
-		// the list of columns
-		String primaryKey = table.getPrimaryKeys().get(0).getPrimaryKey();
-		String dataType = "undefined";
-		for (Column col : table.getColumns()) {
-			if (primaryKey.equals(col.getColumnName())) {
-				dataType = JdbcClassGen.map.get(col.getDataType());
-			}
-		}
 
-		ST temp = new ST("private <dataType> <variableName>;");
-		temp.add("dataType", dataType);
-		temp.add("variableName", StringOperations.getVariableName(primaryKey));
-		return temp.render();
+		if (table.getPrimaryKeys().size() > 0) {
+			// Primary key object doesn't have the data type. So get data type of PKey from
+			// the list of columns
+			String primaryKey = table.getPrimaryKeys().get(0).getPrimaryKey();
+			String dataType = "undefined";
+			for (Column col : table.getColumns()) {
+				if (primaryKey.equals(col.getColumnName())) {
+					dataType = JdbcClassGen.map.get(col.getDataType());
+				}
+			}
+
+			ST temp = new ST("private <dataType> <variableName>;");
+			temp.add("dataType", dataType);
+			temp.add("variableName", StringOperations.getVariableName(primaryKey));
+			return temp.render();
+		} else {
+			return "";
+		}
 	}
 
 	private String getVariables(Table table) {
 		String variables = "";
 		for (Column column : table.getColumns()) {
-			if (column.getColumnName().equals(table.getPrimaryKeys().get(0).getPrimaryKey())) {
+
+			if (table.getPrimaryKeys().size() > 0 // there might not be any primary keys defined
+					&& column.getColumnName().equals(table.getPrimaryKeys().get(0).getPrimaryKey())) {
 				continue;
 			}
+
 			if (table.getParentTables() != null) {
 				for (ParentTable parentTable : table.getParentTables()) {
 					if (parentTable.getForeignColName().equals(column.getColumnName())) {

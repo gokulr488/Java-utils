@@ -29,25 +29,29 @@ public class Tester {
 	private static Logger logger = LoggerFactory.getLogger(Tester.class);
 
 	public static void main(String[] args) throws SQLException {
-		Connection con = DB.getConnection("jdbc:mysql://localhost:3308/inventory_29_sep", "snd",
-				"snd@6Dtech");
+		Connection con = DB.getConnection("jdbc:h2:C:\\Users\\gokul\\eclipse-workspace\\MisWebServer\\workspace\\store\\db", "user",
+				"pass");
 		HibernateEntity hib = new HibernateEntity("output/foo/");
 		TableToMetadata metadataGen = new TableToMetadata(con);
 		List<String>tables=new ArrayList<>();
-		tables.add("activation");
-		tables.add("activation_details");
-		tables.add("allocation_return_log");
-		tables.add("approval_process_log");
-		tables.add("asset_details");
-		tables.add("asset_specific_details");
-		tables.add("asset_state_mapping");
-		tables.add("asset_states");
-		tables.add("asset_transaction_box_range_mapping");
-		tables.add("asset_transaction_history");
-		tables.add("asset_transaction_master");
-		tables.add("buyback_configuration");
-		tables.add("buyback_type");
-		tables.add("cancellation_file");
+//		ALL_ORDERS
+//		ALL_TRADES
+//		CONTRACT_HISTORY
+//		SCRIPT_DETAILS
+		tables.add("ALL_ORDERS");
+		tables.add("ALL_TRADES");
+		tables.add("CONTRACT_HISTORY");
+		tables.add("SCRIPT_DETAILS");
+//		tables.add("asset_details");
+//		tables.add("asset_specific_details");
+//		tables.add("asset_state_mapping");
+//		tables.add("asset_states");
+//		tables.add("asset_transaction_box_range_mapping");
+//		tables.add("asset_transaction_history");
+//		tables.add("asset_transaction_master");
+//		tables.add("buyback_configuration");
+//		tables.add("buyback_type");
+//		tables.add("cancellation_file");
 //		tables.add("countable_assets");
 //		tables.add("countable_assets_transaction_history");
 //		tables.add("countable_assets_transaction_master");

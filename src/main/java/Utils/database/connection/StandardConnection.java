@@ -30,7 +30,8 @@ public class StandardConnection implements ConnectionManager {
 		try {
 			logger.info("Connecting to DB, URL: {} username: {} password: {}", url, userName, password);
 			connection = DriverManager.getConnection(url, userName, password);
-			logger.info("DB Connected");
+			connection.setAutoCommit(false);
+			logger.info("DB Connected. Auto Commit set to FALSE");
 		} catch (SQLException e) {
 			logger.error("Unable to get DB Connection", e);
 
