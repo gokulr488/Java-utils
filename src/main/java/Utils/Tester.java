@@ -15,10 +15,10 @@ public class Tester {
 
 	public static void main(String[] args) throws SQLException {
 
-		Connection con = DB.getConnection("jdbc:mysql://localhost:3306/inventory_dev", "root", "pass");
+		Connection con = DB.getConnection("jdbc:mysql://localhost:3306/receive_sim", "root", "pass");
 		Generate generate = new Generate();
 		generate.hibernateEntitiesAndRepositories(con,
-				"C:\\Users\\gokul\\eclipse-workspace\\datapersistance\\src\\main\\java\\com\\algols\\datapersistance\\");
+				"C:\\Users\\gokul\\Desktop\\workspaces\\inventory\\production-service\\src\\main\\java\\com\\sixdee\\im\\prd\\");
 
 
 

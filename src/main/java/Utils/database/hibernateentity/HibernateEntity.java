@@ -88,12 +88,23 @@ public class HibernateEntity {
 	private Object getGettersAndSeters(Table table) {
 		List<Variable> variables = JdbcClassGen.getVariables(table.getColumns());
 
-		for (ParentTable parentTable : table.getParentTables()) {
-			// To generate getters and setters for ManyToOne annotated fields
-			Variable var = new Variable();
-			var.setDataType(StringOperations.getClassName(parentTable.getParentTableName()));
-			var.setVariableName(StringOperations.getVariableName(parentTable.getParentTableName()));
-			variables.add(var);
+		if (table.getParentTables() != null) {
+			for (ParentTable parentTable : table.getParentTables()) {
+				for (Variable variable : variables) {// To prevent getters and setter for ManyToOne annotated variables.
+														// we need field variables not column variables.
+					if (variable.getVariableName()
+							.equals(StringOperations.getVariableName(parentTable.getForeignColName()))) {
+						variables.remove(variable);
+						break;
+					}
+				}
+
+				// To generate getters and setters for ManyToOne annotated fields
+				Variable var = new Variable();
+				var.setDataType(StringOperations.getClassName(parentTable.getParentTableName()));
+				var.setVariableName(StringOperations.getVariableName(parentTable.getParentTableName()));
+				variables.add(var);
+			}
 		}
 		return StringOperations.genGettersAndSetters(variables);
 	}
@@ -111,7 +122,8 @@ public class HibernateEntity {
 				}
 			}
 
-			ST temp = new ST("private <dataType> <variableName>;");
+			ST temp = new ST("	@Column(name = \"<primaryKey>\") \n" + " 	private <dataType> <variableName>;");
+			temp.add("primaryKey", primaryKey);
 			temp.add("dataType", dataType);
 			temp.add("variableName", StringOperations.getVariableName(primaryKey));
 			return temp.render();
@@ -128,22 +140,24 @@ public class HibernateEntity {
 					&& column.getColumnName().equals(table.getPrimaryKeys().get(0).getPrimaryKey())) {
 				continue;
 			}
-
+			boolean skipParentTable = false;
 			if (table.getParentTables() != null) {
 				for (ParentTable parentTable : table.getParentTables()) {
 					if (parentTable.getForeignColName().equals(column.getColumnName())) {
-						continue;
+						skipParentTable = true;
+						break;
 					}
 				}
 			}
+			if (!skipParentTable) {
+				ST var = new ST(
+						"	@Column(name = \"<columnName>\")\r\n" + "	private <dataType> <variableName>;\r\n\r\n");
+				var.add("columnName", column.getColumnName());
+				var.add("dataType", JdbcClassGen.map.get(column.getDataType()));
+				var.add("variableName", StringOperations.getVariableName(column.getColumnName()));
 
-			ST var = new ST(
-					"	@Column(name = \"<columnName>\")\r\n" + "	private <dataType> <variableName>;\r\n\r\n");
-			var.add("columnName", column.getColumnName());
-			var.add("dataType", JdbcClassGen.map.get(column.getDataType()));
-			var.add("variableName", StringOperations.getVariableName(column.getColumnName()));
-
-			variables += var.render();
+				variables += var.render();
+			}
 		}
 		return variables;
 	}

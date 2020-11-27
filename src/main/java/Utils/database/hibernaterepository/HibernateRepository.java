@@ -43,10 +43,17 @@ public class HibernateRepository {
 
 	private String generateCode(Table table) {
 		ST template = GenUtils.getTemplate("template.stg", "hibernateRepository");
+		template.add("entityImport", getEntityImportString(packageName));
 		template.add("packageName", packageName);
 		template.add("entityName", StringOperations.getClassName(table.getTableName()));
 
 		return template.render();
+	}
+
+	private String getEntityImportString(String packageName) {
+		packageName = packageName.replaceAll(".repository", ".entities");
+		return packageName;
+
 	}
 
 }
