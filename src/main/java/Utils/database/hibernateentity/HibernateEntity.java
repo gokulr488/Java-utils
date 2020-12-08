@@ -150,11 +150,21 @@ public class HibernateEntity {
 				}
 			}
 			if (!skipParentTable) {
-				ST var = new ST(
-						"	@Column(name = \"<columnName>\")\r\n" + "	private <dataType> <variableName>;\r\n\r\n");
+				ST var = new ST("	<timeStamp>\r\n	@Column(name = \"<columnName>\" <length>)\r\n"
+						+ "	private <dataType> <variableName>;\r\n\r\n");
+				String variableName = StringOperations.getVariableName(column.getColumnName());
 				var.add("columnName", column.getColumnName());
 				var.add("dataType", JdbcClassGen.map.get(column.getDataType()));
-				var.add("variableName", StringOperations.getVariableName(column.getColumnName()));
+				var.add("variableName", variableName);
+				var.add("length", ",length = " + column.getSize());
+				if (variableName.equals("createdAt") || variableName.equals("createdOn")) {
+					var.add("timeStamp", "@CreationTimestamp");
+				} else if (variableName.equals("updatedAt") || variableName.equals("modifiedOn")
+						|| variableName.equals("updatedOn")) {
+					var.add("timeStamp", "@UpdateTimestamp");
+				} else {
+					var.add("timeStamp", "");
+				}
 
 				variables += var.render();
 			}

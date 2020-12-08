@@ -5,6 +5,11 @@ public class Column {
 	private String columnName;
 	private String dataType;
 	private String defaultValue;
+	private int size;
+	private boolean isNullable;
+	private boolean isAutoIncrement;
+	private String comments;
+	private int position;
 
 	public String getColumnName() {
 		return columnName;
@@ -30,9 +35,44 @@ public class Column {
 		this.defaultValue = defaultValue;
 	}
 
-	@Override
-	public String toString() {
-		return "Column [columnName=" + columnName + ", dataType=" + dataType + ", defaultValue=" + defaultValue + "]";
+	public int getSize() {
+		return size;
+	}
+
+	public void setSize(int size) {
+		this.size = size;
+	}
+
+	public boolean isNullable() {
+		return isNullable;
+	}
+
+	public void setNullable(boolean isNullable) {
+		this.isNullable = isNullable;
+	}
+
+	public boolean isAutoIncrement() {
+		return isAutoIncrement;
+	}
+
+	public void setAutoIncrement(boolean isAutoIncrement) {
+		this.isAutoIncrement = isAutoIncrement;
+	}
+
+	public String getComments() {
+		return comments;
+	}
+
+	public void setComments(String comments) {
+		this.comments = comments;
+	}
+
+	public int getPosition() {
+		return position;
+	}
+
+	public void setPosition(int position) {
+		this.position = position;
 	}
 
 }

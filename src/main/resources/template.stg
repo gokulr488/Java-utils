@@ -96,13 +96,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 @Entity
 @Table(name = "<tableName>")
 public class <className> {
-
-	public <className>() {
-
-	}
 
 		@Id
 		@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -126,8 +125,8 @@ oneToManyMapping(mappedBy,childTableClass,childTableObject,thisClassName) ::=<<
 		if(<childTableObject>s ==null) {
 			<childTableObject>s = new ArrayList\<>();
 		}
-		
-		<childTableObject>s.add(<childTableObject>);
+		if (!<childTableObject>s.contains(<childTableObject>))
+			<childTableObject>s.add(<childTableObject>);
 		<childTableObject>.set<thisClassName>(this);
 	}
 	

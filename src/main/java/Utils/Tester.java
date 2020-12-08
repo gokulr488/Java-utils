@@ -3,22 +3,23 @@ package Utils;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import Utils.database.DB;
+import Utils.fileutils.folder.Folder;
 import Utils.gen.Generate;
 
 public class Tester {
 
-	private static Logger logger = LoggerFactory.getLogger(Tester.class);
+	//private static Logger logger = LoggerFactory.getLogger(Tester.class);
 
 	public static void main(String[] args) throws SQLException {
 
-		Connection con = DB.getConnection("jdbc:mysql://localhost:3306/receive_sim", "root", "pass");
+		Connection con = DB.getConnection("jdbc:mysql://localhost:3306/production_structure", "root", "pass");
 		Generate generate = new Generate();
-		generate.hibernateEntitiesAndRepositories(con,
-				"C:\\Users\\gokul\\Desktop\\workspaces\\inventory\\production-service\\src\\main\\java\\com\\sixdee\\im\\prd\\");
+//		generate.hibernateEntitiesAndRepositories(con,
+//				"C:\\Users\\gokul\\Desktop\\workspaces\\inventory\\production-service\\src\\main\\java\\com\\sixdee\\im\\prd\\");
+		Folder.createFolder("C:\\Users\\gokul\\Desktop\\workspaces\\inventory\\production-service\\src\\main\\java\\com\\sixdee\\im\\prd\\db\\temp");
+		generate.hibernateEntities(con,
+				"C:\\Users\\gokul\\Desktop\\workspaces\\inventory\\production-service\\src\\main\\java\\com\\sixdee\\im\\prd\\db\\temp");
 
 
 

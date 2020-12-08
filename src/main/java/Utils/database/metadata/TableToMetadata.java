@@ -67,8 +67,6 @@ public class TableToMetadata implements MetadataCollector {
 			}
 		}
 		tables = getChildTables(tables);
-		// TODO method to find child tables
-
 		return tables;
 	}
 
@@ -141,11 +139,13 @@ public class TableToMetadata implements MetadataCollector {
 
 			Column column = new Column();
 			column.setColumnName(res.getString("COLUMN_NAME"));
-
 			column.setDefaultValue(res.getString("COLUMN_DEF"));
-
 			column.setDataType(res.getString("TYPE_NAME"));
-
+			column.setSize(res.getInt("COLUMN_SIZE"));
+			column.setNullable(res.getString("IS_NULLABLE").equals("YES"));
+			column.setAutoIncrement(res.getString("IS_AUTOINCREMENT").equals("YES"));
+			column.setComments(res.getString("REMARKS"));
+			column.setPosition(res.getInt("ORDINAL_POSITION"));
 			if (colsAdded.contains(column.getColumnName())) {
 				logger.warn("Column: {} exist already in table: {}", column.getColumnName(), tableName);
 			} else {
