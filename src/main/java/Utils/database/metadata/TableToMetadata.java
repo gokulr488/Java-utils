@@ -66,8 +66,8 @@ public class TableToMetadata implements MetadataCollector {
 				logger.info("MetaData collected for '{}' table", tableName);
 			}
 		}
-		tables = getChildTables(tables);
-		return tables;
+		return getChildTables(tables);
+		
 	}
 
 	private List<Table> getChildTables(List<Table> tables) {

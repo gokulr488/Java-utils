@@ -73,8 +73,9 @@ dependencies {
 	
 	compile group: 'org.apache.commons', name: 'commons-dbcp2', version: '2.7.0'
 	compile group: 'org.hibernate', name: 'hibernate-gradle-plugin', version: '5.4.22.Final'
-	compile group: 'com.h2database', name: 'h2', version: '1.4.200'
+	//compile group: 'com.h2database', name: 'h2', version: '1.4.200'
 	compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.21'
+	
 	//compile group: 'com.oracle.database.jdbc', name: 'ojdbc8', version: '19.7.0.0'
 	
 	//compile group: 'org.apache.sshd', name: 'sshd-scp', version: '2.5.1'

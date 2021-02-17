@@ -117,7 +117,7 @@ public class Linux {
 			cmdList.add("sh");
 			cmdList.add(shellFile);
 			ProcessBuilder pb = new ProcessBuilder(cmdList);
-			//pb=pb.inheritIO();
+			// pb=pb.inheritIO();
 			logger.info("Executing Script file {}", shellFile);
 			Process p = pb.inheritIO().start();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));

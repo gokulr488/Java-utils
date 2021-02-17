@@ -40,14 +40,23 @@ public class Generate {
 		Folder.createFolder(projectFolder + "db");
 		Folder.createFolder(projectFolder + "db\\repository");
 		Folder.createFolder(projectFolder + "db\\entities");
-		hibernateRepositories(conn, projectFolder + "db\\repository");
-		hibernateEntities(conn, projectFolder + "db\\entities");
+		hibernateRepositories(conn, projectFolder + "db\\repository", null);
+		hibernateEntities(conn, projectFolder + "db\\entities", null);
 
 	}
 
-	public void hibernateEntities(Connection conn, String outputFolder) {
+	public void hibernateEntitiesAndRepositories(Connection conn, String projectFolder, List<String> tables) {
+		Folder.createFolder(projectFolder + "db");
+		Folder.createFolder(projectFolder + "db\\repository");
+		Folder.createFolder(projectFolder + "db\\entities");
+		hibernateRepositories(conn, projectFolder + "db\\repository", tables);
+		hibernateEntities(conn, projectFolder + "db\\entities", tables);
+
+	}
+
+	public void hibernateEntities(Connection conn, String outputFolder, List<String> tables) {
 		Utils.logger.info("Starting Generation of Entities");
-		getMetaData(conn);
+		getMetaData(conn, tables);
 		HibernateEntity hibernate = new HibernateEntity(outputFolder,
 				StringOperations.getPackageNameOfFolder(outputFolder));
 		for (Table table : metadata.getTables()) {
@@ -56,29 +65,31 @@ public class Generate {
 
 	}
 
-	public void hibernateRepositories(Connection conn, String outputFolder) {
+	public void hibernateRepositories(Connection conn, String outputFolder, List<String> tables) {
 		Utils.logger.info("Starting Generation of Repositories");
-		getMetaData(conn);
+		getMetaData(conn, tables);
 		HibernateRepository hibernate = new HibernateRepository(outputFolder,
 				StringOperations.getPackageNameOfFolder(outputFolder));
 		for (Table table : metadata.getTables()) {
 			hibernate.genRepositoryForTable(table);
 		}
 	}
-	
-	public void jdbcClasses(Connection conn, String outputFolder) {
+
+	public void jdbcClasses(Connection conn, String outputFolder, List<String> tables) {
 		Utils.logger.info("Starting Generation of JDBC DO, DAOImpl classes");
-		getMetaData(conn);
+		getMetaData(conn, tables);
 		JdbcClassGen.generateDoFrom(metadata, outputFolder);
 		JdbcClassGen.generateDaoImplFrom(metadata, outputFolder);
 	}
 
-	private void getMetaData(Connection conn) {
+	private void getMetaData(Connection conn, List<String> tables) {
 		if (metadata != null) {
 			return;
 		}
 		TableToMetadata metadataGen = new TableToMetadata(conn);
-		List<String> tables = getAllTablesInSchema(conn);
+		if (tables == null) {
+			tables = getAllTablesInSchema(conn);
+		}
 
 		metadata = metadataGen.getMetadata(tables);
 	}

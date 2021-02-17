@@ -42,6 +42,8 @@ class JsonToPojo {
 
 					return false;
 				}
+				
+				
 			};
 
 			SchemaMapper mapper = new SchemaMapper(

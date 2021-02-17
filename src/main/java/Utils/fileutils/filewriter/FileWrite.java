@@ -5,6 +5,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+import Utils.Utils;
+
 public class FileWrite {
 	BufferedWriter buffer;
 	private String folder;
@@ -41,6 +43,7 @@ public class FileWrite {
 			file = folder + "//" + filePath;
 		}
 		try {
+			Utils.logger.info("Creating File {}", file);
 			this.buffer = new BufferedWriter(new FileWriter(file));
 		} catch (IOException e) {
 			file = file.replaceAll("//", "\\\\");

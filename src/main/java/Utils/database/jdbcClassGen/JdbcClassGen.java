@@ -28,7 +28,7 @@ public class JdbcClassGen {
 
 	public static void populateMap() {
 		if (map == null) {
-			map = new HashMap<String, String>();
+			map = new HashMap<>();
 			Files.getReader().openResourceFile("javaDataTypeMapping.txt");
 			for (String line : Files.getReader().readAllLines()) {
 				String[] mapping = line.split(",");
@@ -57,7 +57,7 @@ public class JdbcClassGen {
 	}
 
 	public static List<PojoModel> metadataToPojoModel(Metadata metadata) {
-		List<PojoModel> models = new ArrayList<PojoModel>();
+		List<PojoModel> models = new ArrayList<>();
 		for (Table table : metadata.getTables()) {
 			PojoModel model = new PojoModel();
 			model.setClassName(StringOperations.getClassName(table.getTableName()) + "Do");
@@ -72,7 +72,7 @@ public class JdbcClassGen {
 
 		populateMap();
 
-		List<Variable> variables = new ArrayList<Variable>();
+		List<Variable> variables = new ArrayList<>();
 		for (Column column : columns) {
 			Variable var = new Variable();
 			var.setVariableName(StringOperations.getVariableName(column.getColumnName()));
