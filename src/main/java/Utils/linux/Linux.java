@@ -40,7 +40,7 @@ public class Linux {
 			}
 			Process process = Runtime.getRuntime().exec(command, null, dir);
 			BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
-			List<String> output = new ArrayList<String>();
+			List<String> output = new ArrayList<>();
 			String outputLine = "";
 			while ((outputLine = br.readLine()) != null) {
 				logger.debug(outputLine);

@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import Utils.database.DB;
+import Utils.fileutils.zip.UnZip;
 import Utils.gen.Generate;
 
 public class Tester {
@@ -15,7 +16,7 @@ public class Tester {
 		//Json.generatePojo(".\\input\\reservationResp.json", "BlockAssetResp", "com.sixdee.im.arm.pojos.reservation", ".\\output\\");
 
 		
-		
+		UnZip.unZip("input/test.zip", "output");
 		
 		
 		
@@ -31,7 +32,7 @@ public class Tester {
 		
 		Connection con = DB.getConnection("jdbc:mysql://localhost:3303/oscar", "root", "my-secret-pw");
 		Generate generate = new Generate();
-		List<String> tables = Arrays.asList("Institution");
+		List<String> tables = Arrays.asList("Department");
 		
 		
 		generate.hibernateEntitiesAndRepositories(con,
