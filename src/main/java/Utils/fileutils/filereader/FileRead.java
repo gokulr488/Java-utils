@@ -40,6 +40,17 @@ public class FileRead {
 		return lines;
 	}
 
+	public String readLine() {
+		String line = null;
+		try {
+			line = buffer.readLine();
+			noOflines++;
+		} catch (IOException e) {
+			logger.error("Unable to Readline from file {}", file, e);
+		}
+		return line;
+	}
+
 	public String readAsSingleString() {
 		logger.debug("Reading all lines from file {} to single String", file);
 		String data = "";

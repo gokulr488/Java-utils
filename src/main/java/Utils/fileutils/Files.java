@@ -1,6 +1,7 @@
 package Utils.fileutils;
 
 import java.io.File;
+import java.util.List;
 
 import Utils.fileutils.filereader.FileRead;
 import Utils.fileutils.filewriter.FileWrite;
@@ -41,6 +42,14 @@ public class Files {
 		reader.close();
 		return data;
 
+	}
+
+	public static List<String> readAllLines(String filePath) {
+		reader = getReader();
+		reader.openFile(filePath);
+		List<String> allLines = reader.readAllLines();
+		reader.close();
+		return allLines;
 	}
 
 	public static void writeFullFile(String data, String filePath) {

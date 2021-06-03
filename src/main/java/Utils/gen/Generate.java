@@ -15,6 +15,7 @@ import Utils.database.jdbcClassGen.JdbcClassGen;
 import Utils.database.metadata.TableToMetadata;
 import Utils.database.metadata.model.Metadata;
 import Utils.database.metadata.model.Table;
+import Utils.database.tabletocsv.TableToCsv;
 import Utils.fileutils.folder.Folder;
 
 public class Generate {
@@ -110,5 +111,11 @@ public class Generate {
 		}
 
 		return tables;
+	}
+
+	public void tableInfoToCsv(Connection conn, String outputFolder) {
+		getMetaData(conn, null);
+		TableToCsv csvGen=new TableToCsv();
+		csvGen.metaDataToCsv(metadata,outputFolder);
 	}
 }

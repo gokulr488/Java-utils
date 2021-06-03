@@ -1,43 +1,20 @@
 package Utils;
 
 import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import Utils.database.DB;
-import Utils.fileutils.zip.UnZip;
 import Utils.gen.Generate;
 
 public class Tester {
 
 	public static void main(String[] args) {
-
-		//Json.generatePojo(".\\input\\reservationResp.json", "BlockAssetResp", "com.sixdee.im.arm.pojos.reservation", ".\\output\\");
-
-		
-		UnZip.unZip("input/test.zip", "output");
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		Connection con = DB.getConnection("jdbc:mysql://localhost:3303/oscar", "root", "my-secret-pw");
+		Connection con = DB.getConnection("jdbc:mysql://localhost:3306/test", "root", "pass");
 		Generate generate = new Generate();
-		List<String> tables = Arrays.asList("Department");
-		
-		
+		//generate.tableInfoToCsv(con, "output\\");
+
 		generate.hibernateEntitiesAndRepositories(con,
-				"C:\\Users\\gokul\\Desktop\\workspaces\\innoneo\\emr\\emr-api\\innoneo\\innoneoemr\\src\\main\\java\\com\\reds\\service\\innoneoemr\\",tables);
-		
+				"D:\\work\\workspaces\\algols\\Gutils\\src\\main\\java\\Utils\\test");
+
 //		//generate.jdbcClasses(con, "output\\foo\\");
 //		
 //		

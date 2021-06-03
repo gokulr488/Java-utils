@@ -7,3 +7,5 @@ bin/
 release/Utils_1.0.zip
 release/Utils1.0/lib/
 release/Utils-fat.jar
+output/
+.settings/
