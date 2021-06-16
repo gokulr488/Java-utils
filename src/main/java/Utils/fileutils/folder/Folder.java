@@ -14,9 +14,16 @@ public class Folder {
 	private static Logger logger = LoggerFactory.getLogger(Folder.class);
 	private List<String> listOfAllFiles;
 	private List<String> processedFiles;
-	
+
 	public static void createFolder(String folderName) {
 		new File(folderName).mkdir();
+	}
+
+	public static void createIfNotExists(String folderName) {
+		File folder = new File(folderName);
+		if (!folder.exists()) {
+			folder.mkdir();
+		}
 	}
 
 	public String[] getAllFilesIn(String folderPath) {
