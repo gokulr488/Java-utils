@@ -9,3 +9,5 @@ release/Utils1.0/lib/
 release/Utils-fat.jar
 output/
 .settings/
+gradle/
+.project

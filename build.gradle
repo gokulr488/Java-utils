@@ -11,40 +11,40 @@ def serviceVersion = '1.0'
 
      
   
-     task copyArtifact(type: Copy) {			
-  			from "$buildDir/libs"
-  			into "release/${serviceName}${serviceVersion}/"  			
-		}	
-	task copyDependencies(type: Copy) {				
-  			from configurations.default
-  			into "release/${serviceName}${serviceVersion}/lib"  			
-  			dependsOn copyArtifact
-		}
-	task copyResource(type: Copy) {  					
-  			from sourceSets.main.resources
-  			into "release/${serviceName}${serviceVersion}"			
-  			dependsOn copyDependencies
-		}
-	task releaseService(type: Zip,group: 'build', description: 'Releasing Service') {
+     task copyArtifact(type: Copy) {            
+            from "$buildDir/libs"
+            into "release/${serviceName}${serviceVersion}/"             
+        }   
+    task copyDependencies(type: Copy) {             
+            from configurations.default
+            into "release/${serviceName}${serviceVersion}/lib"              
+            dependsOn copyArtifact
+        }
+    task copyResource(type: Copy) {                     
+            from sourceSets.main.resources
+            into "release/${serviceName}${serviceVersion}"          
+            dependsOn copyDependencies
+        }
+    task releaseService(type: Zip,group: 'build', description: 'Releasing Service') {
     archiveName = "${serviceName}_${serviceVersion}.zip"
     destinationDir = file("release/")
     from "release/${serviceName}${serviceVersion}"
     dependsOn copyResource
-}	
+}   
 
 task fatJar(type: Jar,group: 'build') {
     manifest {
         attributes 'Main-Class': 'Utils.testpack.Tester'  
   }
-  	destinationDir = file("release/")
+    destinationDir = file("release/")
     baseName = project.name + '-fat'
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
 }
      
      jar {   
-     	destinationDir = file("release/")	
-	}
+        destinationDir = file("release/")   
+    }
 
 
 repositories {
@@ -55,32 +55,32 @@ repositories {
 
 dependencies {
     
-	compile group: 'org.antlr', name: 'ST4', version: '4.3'
-	
- 	compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
-	compile group: 'ch.qos.logback', name: 'logback-core', version: '1.2.3'
-	compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
-	
-	compile group: 'com.google.code.gson', name: 'gson', version: '2.8.6'
- 	compile group: 'org.jsonschema2pojo', name: 'jsonschema2pojo-core', version: '1.0.2'
+    compile group: 'org.antlr', name: 'ST4', version: '4.3'
+    
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
+    compile group: 'ch.qos.logback', name: 'logback-core', version: '1.2.3'
+    compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
+    
+    compile group: 'com.google.code.gson', name: 'gson', version: '2.8.6'
+    compile group: 'org.jsonschema2pojo', name: 'jsonschema2pojo-core', version: '1.0.2'
 
-	
-	compile group: 'org.apache.commons', name: 'commons-dbcp2', version: '2.7.0'
-	compile group: 'org.hibernate', name: 'hibernate-gradle-plugin', version: '5.4.22.Final'
-	//compile group: 'com.h2database', name: 'h2', version: '1.4.200'
-	compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.21'
-	
-	//compile group: 'com.oracle.database.jdbc', name: 'ojdbc8', version: '19.7.0.0'
-	
-	//compile group: 'org.apache.sshd', name: 'sshd-scp', version: '2.5.1'
+    
+    compile group: 'org.apache.commons', name: 'commons-dbcp2', version: '2.7.0'
+    compile group: 'org.hibernate', name: 'hibernate-gradle-plugin', version: '5.4.22.Final'
+    //compile group: 'com.h2database', name: 'h2', version: '1.4.200'
+    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.21'
+    
+    //compile group: 'com.oracle.database.jdbc', name: 'ojdbc8', version: '19.7.0.0'
+    
+    //compile group: 'org.apache.sshd', name: 'sshd-scp', version: '2.5.1'
 
-	compile group: 'com.jcraft', name: 'jsch', version: '0.1.55'
-	
-	
-	compile group: 'org.apache.commons', name: 'commons-exec', version: '1.3'
-	
-	implementation group: 'org.jsoup', name: 'jsoup', version: '1.13.1'
-	
+    compile group: 'com.jcraft', name: 'jsch', version: '0.1.55'
+    
+    
+    compile group: 'org.apache.commons', name: 'commons-exec', version: '1.3'
+    
+    implementation group: 'org.jsoup', name: 'jsoup', version: '1.13.1'
+    
 }
 
 
