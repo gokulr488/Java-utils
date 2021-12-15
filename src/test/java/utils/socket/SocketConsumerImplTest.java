@@ -2,10 +2,10 @@ package utils.socket;
 
 import java.util.Arrays;
 
-import Utils.Utils;
-import Utils.sockets.SocketConsumer;
-import Utils.sockets.SocketHandler;
-import Utils.sockets.TcpSocketHandler;
+import com.gr.utils.Utils;
+import com.gr.utils.sockets.SocketConsumer;
+import com.gr.utils.sockets.SocketHandler;
+import com.gr.utils.sockets.TcpSocketHandler;
 
 public class SocketConsumerImplTest implements SocketConsumer {
 

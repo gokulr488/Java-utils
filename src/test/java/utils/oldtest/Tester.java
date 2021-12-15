@@ -2,8 +2,8 @@ package utils.oldtest;
 
 import java.sql.Connection;
 
-import Utils.database.DB;
-import Utils.gen.Generate;
+import com.gr.utils.database.DB;
+import com.gr.utils.gen.Generate;
 
 public class Tester {
 
