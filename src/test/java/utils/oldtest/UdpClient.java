@@ -7,6 +7,7 @@ import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.MulticastSocket;
+import java.net.NetworkInterface;
 import java.net.SocketAddress;
 import java.util.Arrays;
 
@@ -17,8 +18,7 @@ import java.util.Arrays;
 public class UdpClient {
 
 	protected MulticastSocket socket = null;
-	protected byte[] buf = new byte[256];
-	private SocketAddress sockAddr;
+	protected byte[] buf = new byte[25];
 
 	public static void main(String[] args) throws Exception {
 		UdpClient cli = new UdpClient();
@@ -26,14 +26,13 @@ public class UdpClient {
 	}
 
 	public void startClient() throws Exception {
-		socket = new MulticastSocket();
-		InetAddress group = InetAddress.getByName("230.0.0.0");
-		sockAddr = new InetSocketAddress(InetAddress.getByName("239.60.60.41"), 4446);
-		socket.joinGroup(group);
-		while (true) {
+		socket = new MulticastSocket(4446);
+		socket.joinGroup(InetAddress.getByName("230.0.2.169"));
+		while (socket.isBound()) {
 			DatagramPacket packet = new DatagramPacket(buf, buf.length);
 			socket.receive(packet);
-			System.out.println(Arrays.toString(packet.getData()));
+			String st = new String(packet.getData());
+			System.out.println(st);
 		}
 
 	}
