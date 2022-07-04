@@ -38,12 +38,7 @@ public class Generate {
 	}
 
 	public void hibernateEntitiesAndRepositories(Connection conn, String projectFolder) {
-		Folder.createFolder(projectFolder + "db");
-		Folder.createFolder(projectFolder + "db\\repository");
-		Folder.createFolder(projectFolder + "db\\entities");
-		hibernateRepositories(conn, projectFolder + "db\\repository", null);
-		hibernateEntities(conn, projectFolder + "db\\entities", null);
-
+		hibernateEntitiesAndRepositories(conn, projectFolder, null);
 	}
 
 	public void hibernateEntitiesAndRepositories(Connection conn, String projectFolder, List<String> tables) {
@@ -115,7 +110,7 @@ public class Generate {
 
 	public void tableInfoToCsv(Connection conn, String outputFolder) {
 		getMetaData(conn, null);
-		TableToCsv csvGen=new TableToCsv();
-		csvGen.metaDataToCsv(metadata,outputFolder);
+		TableToCsv csvGen = new TableToCsv();
+		csvGen.metaDataToCsv(metadata, outputFolder);
 	}
 }

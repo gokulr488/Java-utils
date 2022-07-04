@@ -2,12 +2,13 @@
 .gradle
 
 # Ignore Gradle build output directory
+*.classpath
+*.settings/
+*.project
+*bin/
 build
-bin/
 release/Utils_1.0.zip
 release/Utils1.0/lib/
 release/Utils-fat.jar
 output/
-.settings/
 gradle/
-.project
