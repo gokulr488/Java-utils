@@ -8,12 +8,16 @@ import com.gr.utils.gen.Generate;
 public class Tester {
 
 	public static void main(String[] args) {
-		Connection con = DB.getConnection("jdbc:mysql://localhost:3306/test", "root", "pass");
+		Connection con = DB.getConnection("jdbc:mysql://localhost:3306/pcex_db", "root", "pass");
 		Generate generate = new Generate();
-		//generate.tableInfoToCsv(con, "output\\");
+		// generate.tableInfoToCsv(con, "output\\");
+
+		//generate.jdbcClasses(con, "D:\\work\\temp", null);
 
 		generate.hibernateEntitiesAndRepositories(con,
-				"D:\\work\\workspaces\\algols\\Gutils\\src\\main\\java\\Utils\\test");
+				"C:\\Users\\91740\\eclipse-workspace\\utils\\src\\main\\java\\com\\gr\\utils\\test\\");
+		
+		generate.jdbcClasses(con, "D:\\work\\temp", null);
 
 //		//generate.jdbcClasses(con, "output\\foo\\");
 //		

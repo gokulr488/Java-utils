@@ -73,6 +73,9 @@ public class Generate {
 
 	public void jdbcClasses(Connection conn, String outputFolder, List<String> tables) {
 		Utils.logger.info("Starting Generation of JDBC DO, DAOImpl classes");
+		if (tables == null) {
+			tables = getAllTablesInSchema(conn);
+		}
 		getMetaData(conn, tables);
 		JdbcClassGen.generateDoFrom(metadata, outputFolder);
 		JdbcClassGen.generateDaoImplFrom(metadata, outputFolder);
